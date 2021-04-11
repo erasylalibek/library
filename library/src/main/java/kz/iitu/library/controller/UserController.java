@@ -4,28 +4,39 @@ import kz.iitu.library.model.User;
 import kz.iitu.library.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
     IUserService service;
 
-    public void create(User user){
+    @PostMapping(value = "/create")
+    public void create(@RequestBody User user){
         service.createUser(user);
     }
-    public void delete(Integer id){
+
+    @DeleteMapping(value = "/delete/{id}")
+    public void delete(@PathVariable(name = "id") Integer id){
         service.deleteUser(id);
     }
+
+    @GetMapping(value = "/all")
     public List<User> getAllUsers(){
         return service.getAllUsers();
     }
+
+    @GetMapping(value = "/all/has/book")
     public List<User> userListWhoHasBook(){
         return service.userListWhoHasBook();
     }
-    public User getUserByUsername(String username){
+
+    @GetMapping(value = "/find/")
+    public User getUserByUsername(@RequestParam(name = "username") String username){
         return service.getUserByUsername(username);
     }
 
