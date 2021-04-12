@@ -1,6 +1,8 @@
 package kz.iitu.library.model;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -24,10 +26,12 @@ public class Books {
 
     @ManyToOne
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @Getter(AccessLevel.NONE)
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "library_id", insertable = false, updatable = false)
+    @Getter(AccessLevel.NONE)
     private Library library;
 
     @Override

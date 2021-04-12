@@ -15,27 +15,27 @@ public class UserController {
     @Autowired
     IUserService service;
 
-    @PostMapping(value = "/create")
+    @RequestMapping(method = RequestMethod.POST)
     public void create(@RequestBody User user){
         service.createUser(user);
     }
 
-    @DeleteMapping(value = "/delete/{id}")
-    public void delete(@PathVariable(name = "id") Integer id){
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable("id") Integer id){
         service.deleteUser(id);
     }
 
-    @GetMapping(value = "/all")
+    @RequestMapping(method = RequestMethod.GET)
     public List<User> getAllUsers(){
         return service.getAllUsers();
     }
 
-    @GetMapping(value = "/all/has/book")
+    @RequestMapping(value = "/books", method = RequestMethod.GET)
     public List<User> userListWhoHasBook(){
         return service.userListWhoHasBook();
     }
 
-    @GetMapping(value = "/find/")
+    @RequestMapping(value = "/username", method = RequestMethod.GET)
     public User getUserByUsername(@RequestParam(name = "username") String username){
         return service.getUserByUsername(username);
     }

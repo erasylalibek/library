@@ -8,29 +8,29 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/library")
+@RequestMapping("/libraries")
 public class LibraryController {
 
     @Autowired
     ILibraryService service;
 
-    @PostMapping(value = "/create")
+    @RequestMapping(method = RequestMethod.POST)
     public void create(@RequestBody Library library){
         service.create(library);
     }
 
-    @DeleteMapping(value = "/delete/{id}")
-    public void delete(@PathVariable(name = "id") Integer id){
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable("id") Integer id){
         service.delete(id);
     }
 
-    @GetMapping(value = "/all")
+    @RequestMapping(method = RequestMethod.GET)
     public List<Library> getAllLibraries(){
         return service.listOfLibraries();
     }
 
-    @GetMapping(value = "/find/{name}")
-    public Library getLibraryByName(@PathVariable(name = "name") String name){
+    @RequestMapping(value = "/name", method = RequestMethod.GET)
+    public Library getLibraryByName(@RequestParam(name = "name") String name){
         return service.getByName(name);
     }
 }

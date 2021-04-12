@@ -3,7 +3,6 @@ package kz.iitu.library.controller;
 import kz.iitu.library.model.Books;
 import kz.iitu.library.service.IBookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,42 +14,43 @@ public class BookController {
     @Autowired
     IBookService service;
 
-    @PostMapping("/create")
+    @RequestMapping(method = RequestMethod.POST)
     public void create(@RequestBody Books books){
         service.create(books);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable(name = "id") Integer id){
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable("id") Integer id){
         service.delete(id);
     }
 
-    @PostMapping("/update/{id}/")
-    public void update(@PathVariable(name = "id") Integer id, @RequestBody Books book){
-        service.update(id, book);
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public void update(@PathVariable(name = "id") Integer id,
+                       @RequestParam(name = "status") Boolean status){
+        service.update(id, status);
     }
 
-    @GetMapping("/available/all")
+    @RequestMapping(value = "/availables", method = RequestMethod.GET)
     public List<Books> getAllAvailableBooks(){
         return service.getAllAvailableBooks();
     }
 
-    @GetMapping("/issue/all")
+    @RequestMapping(value = "/issues", method = RequestMethod.GET)
     public List<Books> getAllIssueBooks(){
         return service.getAllIssueBooks();
     }
 
-    @GetMapping("/find/name/")
+    @RequestMapping(value = "/name", method = RequestMethod.GET)
     public List<Books> getBooksByName(@RequestParam(name = "name") String name){
         return service.getAllByName(name);
     }
 
-    @GetMapping("/find/author/")
+    @RequestMapping(value = "/author", method = RequestMethod.GET)
     public List<Books> getBooksByAuthor(@RequestParam(name = "author") String author){
         return service.getAllByAuthor(author);
     }
 
-    @GetMapping("/find/isbn/")
+    @RequestMapping(value = "/isbn", method = RequestMethod.GET)
     public Books getBookByIsbn(@RequestParam(name = "isbn") String s){
         return service.getByIsbnNumber(s);
     }

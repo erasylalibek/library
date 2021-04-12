@@ -21,12 +21,11 @@ public class BookServiceImpl implements IBookService {
     }
 
     @Override
-    public void update(Integer id, Books book) {
-        Optional<Books> optionalBook = repository.findById(id);
-        if(optionalBook.isPresent()){
-            Books dbBook = optionalBook.get();
-            dbBook.setStatus(book.getStatus());
-            repository.save(dbBook);
+    public void update(Integer id, Boolean status) {
+        Books books = repository.findById(id).get();
+        if(books != null){
+            books.setStatus(status);
+            repository.save(books);
         }
     }
 
@@ -60,8 +59,4 @@ public class BookServiceImpl implements IBookService {
         return repository.getByIsbn(s);
     }
 
-    @Override
-    public Books getById(Integer id) {
-        return repository.findByBook_id(id);
-    }
 }
