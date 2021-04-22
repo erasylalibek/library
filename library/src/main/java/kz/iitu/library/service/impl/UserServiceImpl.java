@@ -4,12 +4,15 @@ import kz.iitu.library.model.User;
 import kz.iitu.library.repository.UserRepository;
 import kz.iitu.library.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements IUserService , UserDetailsService {
 
     @Autowired
     UserRepository repository;
@@ -37,5 +40,15 @@ public class UserServiceImpl implements IUserService {
     @Override
     public List<User> userListWhoHasBook() {
         return repository.getAllByBooksIsNotNull();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        User user = repository.getByUsername(s);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User: " + s + " not found!");
+        }
+        return user;
     }
 }
