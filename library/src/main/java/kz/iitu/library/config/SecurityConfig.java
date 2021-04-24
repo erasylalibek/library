@@ -1,6 +1,5 @@
 package kz.iitu.library.config;
 
-import kz.iitu.library.service.IUserService;
 import kz.iitu.library.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,14 +23,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
-                .antMatchers("/users/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST,"/users").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST, "/books", "/libraries").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/books/{id}", "/libraries/{id}").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/books/{id}").hasAuthority("ADMIN")
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .addFilter(new JwtTokenGeneratorFilter(authenticationManager()))
-
                 .addFilterAfter(new JwtTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 

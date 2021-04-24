@@ -15,6 +15,14 @@ public class UserController {
     @Autowired
     IUserService service;
 
+    @RequestMapping(method = RequestMethod.GET, value = "/create")
+    public void createUser(String login, String password){
+        User user = new User();
+        user.setUsername(login);
+        user.setPassword(password);
+        service.createUser(user);
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     public void create(@RequestBody User user){
         service.createUser(user);
